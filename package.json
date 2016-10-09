@@ -1,7 +1,7 @@
 {
   "name": "ngowebapp",
   "description": "NGO Webapp",
-  "version": "0.1",
+  "version": "0.1.0",
   "meanjs-version": "0.5.0-beta",
   "private": false,
   "author": "http://hameid.net",
