@@ -12,6 +12,7 @@
 
     vm.completedata = {};
     vm.dataLoaded = true;
+
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
       var defer = $q.defer();
       $http.get('/api/orgs').then(function(result) {
@@ -19,7 +20,25 @@
         vm.completedata = result.data;
       });
       return defer.promise;
-    }).withPaginationType('full_numbers').withOption('searching', false);
+    }).withPaginationType('full_numbers').withOption('searching', true).withOption('initComplete', function() {
+      $('.dataTables_filter').append('<select style="margin: 0px 10px; padding: 1px; height: 24px; border: 1px solid #E4E4E4; border-radius: 3px;" id="searchByCol">' +
+        '<option value="-1">--- Search By ---</option>' +
+        '<option value="0">Name</option>' +
+        '<option value="1">Registration no., City & State</option>' +
+        '<option value="2">Chief</option>' +
+        '<option value="3">Address</option>' +
+        '<option value="4">Sectors</option>' +
+        '</select>');
+      $('<button/>').text('Search').attr('id', 'new-search').attr('style', 'margin: 0px 5px; height: 24px; padding: 1px 12px; border: 1px solid #E4E4E4; border-radius: 3px;').appendTo('.dataTables_filter');
+      $('.dataTables_filter input').unbind();
+      $('#new-search').on('click', function() {
+        if ($('#searchByCol').val() === '-1' || $('#searchByCol').val() < 0) {
+          vm.dtInstance.DataTable.search($('.dataTables_filter input').val()).draw();
+        } else {
+          vm.dtInstance.DataTable.column($('#searchByCol').val()).search($('.dataTables_filter input').val()).draw();
+        }
+      });
+    });
 
     vm.dtColumns = [
       DTColumnBuilder.newColumn('name').withTitle('Name'),
@@ -28,30 +47,10 @@
       DTColumnBuilder.newColumn('address').withTitle('Address'),
       DTColumnBuilder.newColumn('sectors').withTitle('Sectors')
     ];
-
+    vm.dtInstance = {};
     vm.orgs = OrgsService.query();
     vm.SearchByCol = function (colID, searchText) {
-      // vm.dtInstance.DataTable.search('searchText').draw();
-      vm.dataLoaded = false;
-      if (searchText === '' || searchText.length < 1 || searchText === undefined) {
-        vm.dtInstance.changeData(function() {
-          var defer = $q.defer();
-          $http.get('/api/orgs/').then(function(result) {
-            defer.resolve(result.data);
-            vm.dataLoaded = true;
-          });
-          return defer.promise;
-        });
-      } else {
-        vm.dtInstance.changeData(function() {
-          var defer = $q.defer();
-          $http.post('/api/orgs/search/', { columnID: colID, searchText: searchText }).then(function(result) {
-            defer.resolve(result.data);
-            vm.dataLoaded = true;
-          });
-          return defer.promise;
-        });
-      }
+      vm.dtInstance.DataTable.search(searchText).draw();
     };
 
     vm.dtInstance = {};

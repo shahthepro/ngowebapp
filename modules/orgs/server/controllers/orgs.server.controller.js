@@ -31,7 +31,7 @@ exports.create = function(req, res) {
  * List of Orgs
  */
 exports.list = function(req, res) {
-  Org.find().sort('-created').exec(function(err, orgs) {
+  Org.find().sort('-created').limit(100).exec(function(err, orgs) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
