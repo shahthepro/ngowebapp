@@ -1,0 +1,23 @@
+<section>
+  <div class="page-header">
+    <h1>Search NGOs</h1>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th><input type="text" placeholder="Search by Name" ng-model="vm.searchCol1" ng-change="vm.SearchByCol('name', vm.searchCol1)"></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+  </table>
+  <h3 ng-hide="vm.dataLoaded">Loading...</h3>
+  <table datatable="" ng-show="vm.dataLoaded" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" dt-instance="vm.dtInstanceCallback" class="row-border hover"></table>
+
+<style>
+table > thead > tr > th {
+  width: 20%;
+}
+</style>

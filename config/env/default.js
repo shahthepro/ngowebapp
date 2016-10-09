@@ -2,8 +2,8 @@
 
 module.exports = {
   app: {
-    title: 'MEAN.JS',
-    description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
+    title: 'NGO Webapp',
+    description: 'NGO Webapp',
     keywords: 'mongodb, express, angularjs, node.js, mongoose, passport',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
   },
@@ -39,14 +39,6 @@ module.exports = {
   },
   logo: 'modules/core/client/img/brand/logo.png',
   favicon: 'modules/core/client/img/brand/favicon.ico',
-  uploads: {
-    profileUpload: {
-      dest: './modules/users/client/img/profile/uploads/', // Profile upload destination path
-      limits: {
-        fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
-      }
-    }
-  },
   shared: {
     owasp: {
       allowPassphrases: true,

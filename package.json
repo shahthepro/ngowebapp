@@ -1,14 +1,14 @@
 {
-  "name": "meanjs",
-  "description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js.",
-  "version": "0.5.0-beta",
+  "name": "ngowebapp",
+  "description": "NGO Webapp",
+  "version": "0.1",
   "meanjs-version": "0.5.0-beta",
   "private": false,
-  "author": "https://github.com/meanjs/mean/graphs/contributors",
+  "author": "http://hameid.net",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/meanjs/mean.git"
+    "url": "https://github.com/shahthepro/ngowebapp.git"
   },
   "engines": {
     "node": ">=0.12.0",
