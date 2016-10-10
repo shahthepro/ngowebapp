@@ -10,10 +10,13 @@ module.exports = {
         'public/lib/bootstrap/dist/css/bootstrap.min.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
         'public/lib/ng-img-crop/compile/minified/ng-img-crop.css',
+        'public/lib/angular-datatables/dist/css/angular-datatables.min.css',
+        'public/lib/datatables.net-dt/css/jquery.dataTables.min.css'
         // endbower
       ],
       js: [
         // bower:js
+        'public/lib/jquery/dist/jquery.min.js',
         'public/lib/angular/angular.min.js',
         'public/lib/angular-animate/angular-animate.min.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
@@ -24,6 +27,8 @@ module.exports = {
         'public/lib/ng-file-upload/ng-file-upload.min.js',
         'public/lib/ng-img-crop/compile/minified/ng-img-crop.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
+        'public/lib/datatables.net/js/jquery.dataTables.min.js',
+        'public/lib/angular-datatables/dist/angular-datatables.min.js'
         // endbower
       ]
     },

@@ -11,6 +11,8 @@ module.exports = function(app) {
     .get(orgs.list)
     .post(orgs.create);
 
+  app.route('/api/orgs/bulkinsert').post(orgs.bulkinsert);
+
   app.route('/api/orgs/search').post(orgs.search);
 
   // Finish by binding the Org middleware

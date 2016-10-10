@@ -27,6 +27,24 @@ exports.create = function(req, res) {
   });
 };
 
+exports.bulkinsert = function(req, res) {
+  var docs = JSON.parse(req.body.documents);
+  // console.log(docs);
+  var orgs_docs = [];
+  docs.forEach(function(doc, inedx) {
+    orgs_docs.push(new Org(doc));
+  });
+  Org.insertMany(orgs_docs, function(err, orgs) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      return res.status(200).send();
+    }
+  });
+};
+
 /**
  * List of Orgs
  */
@@ -46,18 +64,88 @@ exports.list = function(req, res) {
  * Search Orgs
  */
 exports.search = function(req, res) {
-  var colID = req.columnID;
-  var searchText = req.searchText;
-  console.log('SEarchText' + req.body.searchText);
-  Org.find({ colID: new RegExp('[^]*' + searchText + '[^]*', 'i') }).exec(function(err, orgs) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.jsonp(orgs);
+  var colID = req.body.columnID;
+  var searchText = req.body.searchText;
+  var paged = req.body.paged * 10;
+  console.log(colID, searchText, paged);
+
+  if (colID === undefined || colID === '' || searchText === undefined || searchText === '') {
+    console.log('I am searching for nothing');
+    Org.find().limit(10).skip(paged).exec(function(err, orgs) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.jsonp(orgs);
+      }
+    });
+  } else {
+
+    var terms = searchText.split(' ');
+    var regexString = '';
+    for (var i = 0; i < terms.length; i++) {
+      regexString += terms[i];
+      if (i < terms.length - 1) regexString += '|';
     }
-  });
+    var escapeSeq = '(.*\\W*\\s*\\S*\\w*)*';
+    regexString = escapeSeq + regexString + escapeSeq;
+    console.log(regexString);
+    var re = new RegExp(regexString, 'igm');
+    console.log(re);
+    console.log('I am searching for something');
+    if (colID === 'name') {
+      Org.find().or({ 'name': re }).limit(10).skip(paged).exec(function(err, orgs) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.jsonp(orgs);
+        }
+      });
+    } else if (colID === 'regn') {
+      Org.find().or({ 'regn': re }).limit(10).skip(paged).exec(function(err, orgs) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.jsonp(orgs);
+        }
+      });
+    } else if (colID === 'address') {
+      Org.find().or({ 'address': re }).limit(10).skip(paged).exec(function(err, orgs) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.jsonp(orgs);
+        }
+      });
+    } else if (colID === 'chief') {
+      Org.find().or({ 'chief': re }).limit(10).skip(paged).exec(function(err, orgs) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.jsonp(orgs);
+        }
+      });
+    } else if (colID === 'sectors') {
+      Org.find().or({ 'sectors': re }).limit(10).skip(paged).exec(function(err, orgs) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.jsonp(orgs);
+        }
+      });
+    }
+  }
 };
 
 /**

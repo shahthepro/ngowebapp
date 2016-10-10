@@ -1,8 +1,59 @@
 <section>
   <div class="page-header">
     <h1>Search NGOs</h1>
+    <div class="row">
+      <div class="col-md-7">
+        <input ng-model="vm.searchText" class="form-control" placeholder="Search for ..." />
+      </div>
+      <div class="col-md-3">
+        <select ng-model="vm.searchBy" class="form-control">
+          <option value="">Search by ...</option>
+          <option value="name">Name</option>
+          <option value="regn">Registration No., City &amp; State</option>
+          <option value="chief">Chief</option>
+          <option value="address">Address</option>
+          <option value="sectors">Sectors</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-block btn-primary" ng-click="vm.doSearch(vm.searchBy, vm.searchText)">
+          <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Search
+        </button>
+      </div>
+    </div>
   </div>
-  <table id="ngoslist" datatable="" ng-show="vm.dataLoaded" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" dt-instance="vm.dtInstance" class="row-border hover"></table>
+  <div class="alert alert-info" ng-hide="vm.searchResults.length || !vm.firstSearchDone || vm.searchInProgress" role="alert"><strong>No results found</strong></div>
+  <table ng-show="vm.searchResults.length" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Registration No., City & State</th>
+        <th>Chief</th>
+        <th>Address</th>
+        <th>Sectors</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in vm.searchResults">
+        <td ng-bind="row.name"></td>
+        <td ng-bind="row.regn"></td>
+        <td ng-bind="row.chief"></td>
+        <td ng-bind="row.address"></td>
+        <td ng-bind="row.sectors"></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td></td><td></td>
+        <td>
+          <button ng-show="vm.hasMoreResults" class="btn btn-primary btn-lg btn-block" ng-click="vm.loadMoreResults()">Load more</button>
+          <button ng-hide="vm.hasMoreResults || vm.searchInProgress" class="btn btn-primary btn-lg btn-block" disabled>No more results</button>
+          <button ng-show="vm.searchInProgress" class="btn btn-primary btn-lg btn-block" disabled>Loading...</button>
+        </td>
+        <td></td><td></td>
+      </tr>
+    </tfoot>
+  </table>
 
 <style>
 table > thead > tr > th {
