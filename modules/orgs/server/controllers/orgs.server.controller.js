@@ -67,10 +67,8 @@ exports.search = function(req, res) {
   var colID = req.body.columnID;
   var searchText = req.body.searchText;
   var paged = req.body.paged * 10;
-  console.log(colID, searchText, paged);
 
   if (colID === undefined || colID === '' || searchText === undefined || searchText === '') {
-    console.log('I am searching for nothing');
     Org.find().limit(10).skip(paged).exec(function(err, orgs) {
       if (err) {
         return res.status(400).send({
@@ -88,12 +86,9 @@ exports.search = function(req, res) {
       regexString += terms[i];
       if (i < terms.length - 1) regexString += '|';
     }
-    var escapeSeq = '(.*\\W*\\s*\\S*\\w*)*';
+    var escapeSeq = '[.\\w\\W\\s\\S]*';
     regexString = escapeSeq + regexString + escapeSeq;
-    console.log(regexString);
     var re = new RegExp(regexString, 'igm');
-    console.log(re);
-    console.log('I am searching for something');
     if (colID === 'name') {
       Org.find().or({ 'name': re }).limit(10).skip(paged).exec(function(err, orgs) {
         if (err) {

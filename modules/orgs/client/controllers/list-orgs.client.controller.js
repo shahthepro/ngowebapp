@@ -36,7 +36,6 @@
       vm.firstSearchDone = true;
       vm.hasMoreResults = false;
       vm.searchInProgress = true;
-      console.log(colID, searchText, pageNo);
       $http.post('/api/orgs/search', { 'columnID': colID, 'searchText': searchText, 'paged': pageNo }).then(function(result) {
         vm.searchInProgress = false;
         if (pageNo === 1) {

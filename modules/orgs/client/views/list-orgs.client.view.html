@@ -3,10 +3,10 @@
     <h1>Search NGOs</h1>
     <div class="row">
       <div class="col-md-7">
-        <input ng-model="vm.searchText" class="form-control" placeholder="Search for ..." />
+        <input ng-disabled="vm.searchInProgress" ng-model="vm.searchText" class="form-control" placeholder="Search for ..." />
       </div>
       <div class="col-md-3">
-        <select ng-model="vm.searchBy" class="form-control">
+        <select ng-disabled="vm.searchInProgress" ng-model="vm.searchBy" class="form-control">
           <option value="">Search by ...</option>
           <option value="name">Name</option>
           <option value="regn">Registration No., City &amp; State</option>
@@ -16,8 +16,10 @@
         </select>
       </div>
       <div class="col-md-2">
-        <button type="submit" class="btn btn-block btn-primary" ng-click="vm.doSearch(vm.searchBy, vm.searchText)">
-          <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Search
+        <button ng-disabled="vm.searchInProgress" class="btn btn-block btn-primary" ng-click="vm.doSearch(vm.searchBy, vm.searchText)">
+          <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+          <span ng-hide="vm.searchInProgress">Search</span>
+          <span ng-show="vm.searchInProgress">Loading...</span>
         </button>
       </div>
     </div>
@@ -46,9 +48,11 @@
       <tr>
         <td></td><td></td>
         <td>
-          <button ng-show="vm.hasMoreResults" class="btn btn-primary btn-lg btn-block" ng-click="vm.loadMoreResults()">Load more</button>
-          <button ng-hide="vm.hasMoreResults || vm.searchInProgress" class="btn btn-primary btn-lg btn-block" disabled>No more results</button>
-          <button ng-show="vm.searchInProgress" class="btn btn-primary btn-lg btn-block" disabled>Loading...</button>
+          <button ng-disabled="vm.searchInProgress || !vm.hasMoreResults" class="btn btn-primary btn-lg btn-block" ng-click="vm.loadMoreResults()">
+            <span ng-show="vm.hasMoreResults">Load more</span>
+            <span ng-show="vm.searchInProgress">Loading...</span>
+            <span ng-hide="vm.hasMoreResults || vm.searchInProgress">No more results</span>
+          </button>
         </td>
         <td></td><td></td>
       </tr>
